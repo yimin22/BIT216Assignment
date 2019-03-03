@@ -18,7 +18,10 @@
 
 <div class="super_container">
 
-<?php include ("header.php")?>
+<?php
+include("server.php");
+$page_title = $HOME;
+include("header.php")?>
 
 <!-- Menu -->
 

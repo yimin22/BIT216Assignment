@@ -19,7 +19,10 @@
 
 <div class="super_container">
 
-<?php include ("header.php")?>
+<?php
+include("server.php");
+$page_title = $ABOUT;
+include("header.php")?>
 
 	<!-- Menu -->
 

@@ -20,9 +20,6 @@
                   <div>info.jomuni@gmail.com</div>
                 </li>
               </ul>
-              <div class="top_bar_login ml-auto">
-                <div class="login_button"><a href="#">Register or Login</a></div>
-              </div>
             </div>
           </div>
         </div>
@@ -43,11 +40,16 @@
             </div>
             <nav class="main_nav_contaner ml-auto">
               <ul class="main_nav">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="about.php">About</a></li>
-                <li><a href="university.php">University</a></li>
-                <li><a href="signup.php">Sign Up</a></li>
-                <li><a href="login.php">Login</a></li>
+                <li <?php if ($page_title == $HOME){ ?>class="active"<?php } ?>>
+              <a href="index.php">Home</a></li>
+                <li <?php if ($page_title == $ABOUT){ ?>class="active"<?php } ?>>
+              <a href="about.php">About</a></li>
+                <li <?php if ($page_title == $UNIVERSITY){ ?>class="active"<?php } ?>>
+              <a href="university.php">University</a></li>
+                <li <?php if ($page_title == $SIGNUP){ ?>class="active"<?php } ?>>
+              <a href="signup.php">Sign Up</a></li>
+                <li <?php if ($page_title == $LOGIN){ ?>class="active"<?php } ?>>
+              <a href="login.php">Login</a></li>
               </ul>
               <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
 
