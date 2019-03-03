@@ -189,37 +189,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applicant`
 --
 ALTER TABLE `applicant`
-  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT=40001;
 
 --
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT=50001;
 
 --
 -- AUTO_INCREMENT for table `qualification`
 --
 ALTER TABLE `qualification`
-  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT=10001;
 
 --
 -- AUTO_INCREMENT for table `university`
 --
 ALTER TABLE `university`
-  MODIFY `universityID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `universityID` int(5) NOT NULL AUTO_INCREMENT=20001;
 
 --
 -- AUTO_INCREMENT for table `universityadmin`
 --
 ALTER TABLE `universityadmin`
-  MODIFY `adminID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `adminID` int(5) NOT NULL AUTO_INCREMENT=60001;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT=30001;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

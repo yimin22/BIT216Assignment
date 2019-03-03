@@ -17,7 +17,7 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
+	/*
 
 	1. Vars and Inits
 
@@ -45,7 +45,7 @@ $(document).ready(function()
 	initHeaderSearch();
 	initGoogleMap();
 
-	/* 
+	/*
 
 	2. Set Header
 
@@ -63,7 +63,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	3. Init Menu
 
@@ -115,7 +115,7 @@ $(document).ready(function()
 		menuActive = false;
 	}
 
-	/* 
+	/*
 
 	4. Init Header Search
 
@@ -135,7 +135,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	5. Init Google Map
 
@@ -144,7 +144,7 @@ $(document).ready(function()
 	function initGoogleMap()
 	{
 		var myLatlng = new google.maps.LatLng(38.877434, -77.094214);
-    	var mapOptions = 
+    	var mapOptions =
     	{
     		center: myLatlng,
 	       	zoom: 17,
@@ -361,7 +361,7 @@ $(document).ready(function()
 		marker.addListener('click', function() {
           infowindow.open(map, marker);
         });
-   
+
 		// Re-center map after window resize
 		google.maps.event.addDomListener(window, 'resize', function()
 		{

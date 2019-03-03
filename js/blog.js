@@ -17,7 +17,7 @@ $(document).ready(function()
 {
 	"use strict";
 
-	/* 
+	/*
 
 	1. Vars and Inits
 
@@ -44,7 +44,7 @@ $(document).ready(function()
 	initHeaderSearch();
 	initMasonry();
 
-	/* 
+	/*
 
 	2. Set Header
 
@@ -62,7 +62,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	3. Init Menu
 
@@ -114,7 +114,7 @@ $(document).ready(function()
 		menuActive = false;
 	}
 
-	/* 
+	/*
 
 	4. Init Header Search
 
@@ -134,7 +134,7 @@ $(document).ready(function()
 		}
 	}
 
-	/* 
+	/*
 
 	5. Init Masonry
 
