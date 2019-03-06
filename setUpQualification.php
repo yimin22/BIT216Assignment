@@ -23,7 +23,25 @@
 
 <div class="super_container">
 
-<?php include("header.php")?>
+<?php
+include("server.php");
+include("header.php");
+
+
+$checkUserType = "SELECT type FROM userType";
+
+
+if($connect->query($checkUserType) == "SystemAdmin"){
+  $sql = "INSERT INTO qualification ('qualificationName', 'minimumScore', 'maximumScore', 'operator', 'totalSubject', 'gradeList')
+  VALUES ('$_POST[qualificationName]', '$_POST[minimumScore]','$_POST[operator]', '$_POST[totalSubject]', '$_POST[gradeList]')";
+
+  if(!mysql_query($sql, $connect)){
+    echo"Error";
+  }
+  echo "Successful";
+}
+
+?>
 
 <div class="main">
 
@@ -31,7 +49,7 @@
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="signup-content">
-                    <form method="POST" id="signup-form" class="signup-form">
+                    <form method="POST" id="signup-form" name="SetUpQualification" class="signup-form">
                         <h2 class="form-title">Set Up Qualification</h2>
                         <div class="form-group">
                             <input type="text" class="form-input" name="qualificationName" id="qualificatonName" placeholder="Qualification Name"/>
@@ -52,7 +70,7 @@
                             <textarea form="gradeList" rows="3" cols="50" class="form-input" name="gradeList" placeholder="List of Grading System"></textarea>
                         </div>
                         <div class="form-group">
-                            <button type="submit" name="submit" id="submit" class="form-submit submit2 " >Submit</button>
+                            <button type="submit" name="submit" id="submit" class="form-submit submit2 ">Submit</button>
                         </div>
                     </form>
                 </div>

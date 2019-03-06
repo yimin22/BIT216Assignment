@@ -10,7 +10,7 @@
 4. Init Header Search
 5. Init Home Slider
 6. Initialize Milestones
-
+7. Validate SetUpQualification Input
 
 ******************************/
 
