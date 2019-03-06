@@ -27,18 +27,39 @@
 include("server.php");
 include("header.php");
 
+if(isset($_POST['qualificationName'])){
+  $qualificationName = $_POST['qualificationName'];
+  $minimumScore = $_POST['minimumScore'];
+  $maximumScore = $_POST['maximumScore'];
+  $resultCalcDescription = $_POST['resultCalcDescription'];
+  $gradeList = str_replace(PHP_EOL,',',$_POST['gradeList']);
+  //echo "<script>console.log('".$_POST['gradeList']."')</script>";
 
-$checkUserType = "SELECT type FROM userType";
+  echo "<script>console.log('".$qualificationName."')</script>";
+  echo "<script>console.log('".$minimumScore."')</script>";
+  echo "<script>console.log('".$maximumScore."')</script>";
+  echo "<script>console.log('".$resultCalcDescription."')</script>";
+  echo "<script>console.log('".$gradeList."')</script>";
 
 
-if($connect->query($checkUserType) == "SystemAdmin"){
-  $sql = "INSERT INTO qualification ('qualificationName', 'minimumScore', 'maximumScore', 'operator', 'totalSubject', 'gradeList')
-  VALUES ('$_POST[qualificationName]', '$_POST[minimumScore]','$_POST[operator]', '$_POST[totalSubject]', '$_POST[gradeList]')";
+  /*$checkUserType = "SELECT type FROM userType";
+  if($connect->query($userType) == "SystemAdmin"){*/
+    $values = warpQuote($qualificationName).",".$minimumScore.",".$maximumScore.",".warpQuote($resultCalcDescription).",".warpQuote($gradeList);
+    $sql = "INSERT INTO qualification (qualificationName, minimumScore, maximumScore, resultCalcDescription, gradeList) VALUES (" .$values.");";
 
-  if(!mysql_query($sql, $connect)){
-    echo"Error";
-  }
-  echo "Successful";
+    $query = $connect->query("SELECT qualificationName FROM qualification WHERE qualificationName = '".$qualificationName."';")->num_rows;
+    if($query){
+      $error = "$qualificationName has been recorded!";
+      echo "<script type='text/javascript'>alert('$error');</script>";
+      unset($qualificationName);
+    }
+    else{
+      $connect->query($sql);
+      header("Location: index.php");
+    }
+
+  //}
+
 }
 
 ?>
@@ -49,28 +70,25 @@ if($connect->query($checkUserType) == "SystemAdmin"){
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="signup-content">
-                    <form method="POST" id="signup-form" name="SetUpQualification" class="signup-form">
+                    <form method="post" id="signup-form" name="SetUpQualification" class="signup-form">
                         <h2 class="form-title">Set Up Qualification</h2>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="qualificationName" id="qualificatonName" placeholder="Qualification Name"/>
+                            <input type="text" class="form-input" name="qualificationName" id="qualificatonName" placeholder="Qualification Name" required <?php echo isset($qualificationName)?"value=".warpQuote($qualificationName):"";?>>
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-input" name="minimumScore" id="minimumScore" placeholder="Minimum Score"/>
+                            <input type="number" class="form-input" name="minimumScore" id="minimumScore" placeholder="Minimum Score" required <?php echo isset($minimumScore)?"value=".warpQuote($minimumScore):"";?>>
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-input" name="maximumScore" id="maximumScore" placeholder="Maximum Score"/>
+                            <input type="number" class="form-input" name="maximumScore" id="maximumScore" placeholder="Maximum Score" required <?php echo isset($maximumScore)?"value=".warpQuote($maximumScore):"";?>>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="operator" id="operator" placeholder="Operator (AVG/SUM)"/>
+                            <input type="text" class="form-input" name="resultCalcDescription" id="resultCalcDescription" placeholder="Description of the result calculation" required <?php echo isset($resultCalcDescription)?"value=".warpQuote($resultCalcDescription):"";?>>
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-input" name="totalSubject" id="totalSubject" placeholder="Total of Subjects"/>
+                            <textarea rows="3" cols="50" class="form-input" name="gradeList" id="gradeList" placeholder="List of Grading System"></textarea>
                         </div>
                         <div class="form-group">
-                            <textarea form="gradeList" rows="3" cols="50" class="form-input" name="gradeList" placeholder="List of Grading System"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" name="submit" id="submit" class="form-submit submit2 ">Submit</button>
+                            <button type="submit" class="form-submit submit2 " value="<?php echo $QUALIFICATION ?>">Submit</button>
                         </div>
                     </form>
                 </div>
