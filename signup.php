@@ -83,8 +83,8 @@ if(isset($_POST['username'])){
                             <input type="text" class="form-input" name="username" id="username" placeholder="Username" required <?php echo isset($username)?"value=".warpQuote($username):""; ?>>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="password" id="password" placeholder="Password" required <?php echo isset($password)?"value=".warpQuote($password):""; ?>>
-                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Password" required <?php echo isset($password)?"value=".warpQuote($password):""; ?>>
+                            <span toggle="#password" class="zmdi zmdi-eye-off field-icon toggle-password"></span>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-input" name="re_password" id="re_password" placeholder="Repeat your password" required <?php echo isset($repassword)?"value=".warpQuote($repassword):""; ?>>
@@ -116,7 +116,7 @@ if(isset($_POST['username'])){
                         </div>
                     </form>
                     <p class="loginhere">
-                        Have already an account ? <a href=login.php class="loginhere-link">Login here</a>
+                        Have an account ? <a href=login.php class="loginhere-link">Login here</a>
                     </p>
                 </div>
             </div>
