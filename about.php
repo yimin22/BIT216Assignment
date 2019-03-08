@@ -19,10 +19,15 @@
 
 <div class="super_container">
 
-<?php
-include("server.php");
-$page_title = $ABOUT;
-include("header.php")?>
+	<?php
+	include("server.php");
+	$page_title = $ABOUT;
+	if(isset($_SESSION['logged'])){
+		include("headerLogin.php");
+	} else{
+		 include("header.php");
+	  }
+	?>
 
 	<!-- Menu -->
 

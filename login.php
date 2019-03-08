@@ -25,19 +25,44 @@
 <?php
 include("server.php");
 $page_title = $LOGIN;
-include("header.php")
+include("logincode.php");
+include("header.php");
 
+if(isset($_POST["username"])){
+  $username = $_POST["username"];
+  $password = $_POST["password"];
+  $sql = $connect->query("SELECT * FROM userlogin WHERE username LIKE '".$username."'");
+  $foundUser = $sql->num_rows;
+  $compare = mysqli_fetch_assoc($sql);
+  if($foundUser>0)
+  {
+	   if($compare["password"] == $password){
+		      $_SESSION['logged'] = $username;
+		      $_SESSION['type'] = $compare['type'];
+          header("Location: index.php");
+		      exit();
+	     } else{
+         echo "<script type='text/javascript'>alert('Incorect password! Please try again');</script>";
+         unset($password);
+       }
+  }else{
+    echo "<script type='text/javascript'>alert('Incorect username! Please try again');</script>";
+    unset($username);
+    unset($password);
+  }
+}
  ?>
+
 <!--Content-->
 <div class="main">
         <section class="login" >
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
                 <div class="signup-content" >
-                    <form method="POST" id="login-form" class="login-form" action="logincode.php">
+                    <form method="POST" id="login-form" class="login-form">
                         <h2 class="form-title">Login</h2>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="username" id="username" placeholder="Username" required>
+                            <input type="text" class="form-input" name="username" id="username" placeholder="Username" required <?php echo (isset($username))?"value=".warpQuote($username):"";?>>
                         </div>
                         <div class="form-group">
                             <input type="password" class="form-input" name="password" id="password" placeholder="Password" required>
@@ -45,7 +70,7 @@ include("header.php")
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" name="submit" id="submit" class="form-submit submit2" value="<?php echo $USERS?>">Login</button>
+                            <button type="submit" name="submit" id="submit" class="form-submit submit2" >Login</button>
                         </div>
                     </form>
                     <p class="loginhere">

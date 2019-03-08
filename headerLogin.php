@@ -1,4 +1,45 @@
 <!-- Header -->
+<style>
+.dropbtn {
+  background-color:#ffffff00;
+  padding: 16px;
+  font-family: 'Roboto Slab', serif;
+  font-size: 18px;
+	font-weight: bold;
+	color: #002DA7;
+  border: none;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  font-size: 16px;
+	font-weight: 500;
+	color: #384158;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #14bdee;}
+</style>
 
 <header class="header">
 
@@ -45,7 +86,35 @@
                 <li><a href="university.php">University</a></li>
                 <li><a href="entryRequirement.php">Entry Requirements</a></li>
                 <li><a href="signup.php">Sign Up</a></li>
-                <li><a href="login.php">Login</a></li>
+                <div class="dropdown">
+                  <button class="dropbtn"><?php echo $_SESSION['logged'] ?></button>
+                  <div class="dropdown-content">
+                    <?php
+                    //$type = $connect->query("SELECT type FROM userlogin WHERE username LIKE ".$_SESSION['logged']."");
+                    if($_SESSION['type'] = "Applicant"){
+                      echo"<ul>
+                        <li><a href=\"applyProgramme.php\">Apply Programme</a></li>
+                        <li><a href=\"applicantQualification.php\">My Qualification</a></li>
+                        <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
+                    </ul>";
+                  } else if($_SESSION['type'] = "UniversityAdmin"){
+                      echo "<ul>
+                        <li><a href=\"recoreProgramme.php\">Record Programme</a></li>
+                        <li><a href=\"reviewApplicant.php\">Review Applicant</a></li>
+                        <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
+                    </ul>";
+                  } else if($_SESSION['type'] = "SystemAdmin"){
+                    echo "<ul>
+                      <li><a href=\"setUpQualification.php\">Set Up Qualification</a></li>
+                      <li><a href=\"recordUniversity.php\">Record University</a></li>
+                      <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
+                  </ul>";
+                  }echo "<script>console.log('".$_SESSION['type']."')</script>";
+                  ?>
+
+
+                  </div>
+                </div>
               </ul>
               <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
 

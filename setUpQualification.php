@@ -25,7 +25,12 @@
 
 <?php
 include("server.php");
-include("header.php");
+$page_title = $SETUPQUALIFICATION;
+if(isset($_SESSION['logged'])){
+	include("headerLogin.php");
+} else{
+	 include("header.php");
+  }
 
 if(isset($_POST['qualificationName'])){
   $qualificationName = $_POST['qualificationName'];

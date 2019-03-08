@@ -65,10 +65,16 @@ th {
 </head>
 <body>
 <div class="super_container">
+
 <?php
 include("server.php");
-include("header.php");
-  $qualification = $connect->query("SELECT * FROM qualification");
+if(isset($_SESSION['logged'])){
+	include("headerLogin.php");
+} else{
+	 include("header.php");
+  }
+
+$qualification = $connect->query("SELECT * FROM qualification");
 ?>
 
 <!-- Menu -->

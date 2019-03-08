@@ -21,7 +21,12 @@
 <?php
 include("server.php");
 $page_title = $HOME;
-include("header.php")?>
+if(isset($_SESSION['logged'])){
+	include("headerLogin.php");
+} else{
+	 include("header.php");
+  }
+?>
 
 <!-- Menu -->
 

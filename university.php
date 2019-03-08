@@ -21,8 +21,12 @@
 
 <?php
 include("server.php");
-$page_title = $UNIVERSITY;
-include("header.php")?>
+if(isset($_SESSION['logged'])){
+	include("headerLogin.php");
+} else{
+	 include("header.php");
+  }
+?>
 
 	<!-- Menu -->
 
@@ -66,7 +70,7 @@ include("header.php")?>
 		</div>
 	</div>
 
-	
+
 
 <?php include("footer.php")?>
 

@@ -60,6 +60,7 @@ if(isset($_POST['username'])){
         $sql2 = "INSERT INTO applicant (IDNumber, IDType, dateOfBirth, mobileNo, userID) VALUES (".$applicantValue.");";
         //echo "<script>console.log('".$sql2."')</script>";
         $connect->query($sql2);
+				$_SESSION['logged']=$username;
         header("Location: index.php");
         exit();
       }
