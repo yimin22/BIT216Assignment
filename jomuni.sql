@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2019 at 08:52 AM
+-- Generation Time: Mar 08, 2019 at 01:33 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -43,7 +43,9 @@ CREATE TABLE `applicant` (
 
 INSERT INTO `applicant` (`applicantID`, `IDNumber`, `IDType`, `dateOfBirth`, `mobileNo`, `userID`) VALUES
 (40035, 950101223333, 'ic', '1990-11-22', 123456789, 30043),
-(40036, 970101232233, 'ic', '1997-02-11', 123456789, 30044);
+(40036, 970101232233, 'ic', '1997-02-11', 123456789, 30044),
+(40037, 123, 'ic', '2000-11-22', 123456789, 30045),
+(40038, 123456789, 'ic', '2000-11-22', 123456789, 30046);
 
 -- --------------------------------------------------------
 
@@ -85,10 +87,20 @@ CREATE TABLE `qualification` (
   `qualificationName` varchar(50) NOT NULL,
   `minimumScore` int(3) NOT NULL,
   `maximumScore` int(3) NOT NULL,
-  `operators` char(3) NOT NULL,
-  `totalSubject` int(3) NOT NULL,
+  `resultCalcDescription` varchar(100) NOT NULL,
   `gradeList` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `qualification`
+--
+
+INSERT INTO `qualification` (`qualificationID`, `qualificationName`, `minimumScore`, `maximumScore`, `resultCalcDescription`, `gradeList`) VALUES
+(10062, 'A-Levels', 1, 5, 'Average of best 3 subjects.', 'Aâ€“5 points,Bâ€“4 points,Câ€“3 points,D-2 points,Eâ€“1 point'),
+(10063, 'Unified Examination Certificate(UEC)', 5, 30, 'Total of best 5 subjects.', 'A1 - 1 point,A2 - 2 points,B3 - 3 points,B4 - 4 points,B5 - 5 points,B6 - 6 points'),
+(10064, 'STPM', 0, 4, 'Average of best 3 subjects.', 'A   (4.00),A-  (3.67),B+  (3.33),B   (3.00),B-  (2.67),C+  (2.33),C   (2.00),B+  (1.67),D+  (1.33),D   (1.00),F   (0.00),'),
+(10065, 'Australian Matriculation', 0, 100, 'Average of best 4 subjects.', '0 - 100%'),
+(10066, 'Canadian Pre University', 0, 100, 'Average of 6 subjects.', '0 -100%');
 
 -- --------------------------------------------------------
 
@@ -175,7 +187,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userID`, `username`, `password`, `fullname`, `email`) VALUES
 (30043, 'john', '123', 'john', 'john@gmail.com'),
-(30044, 'jackson', '123', 'jackson', 'jackson@gmail.com');
+(30044, 'jackson', '123', 'jackson', 'jackson@gmail.com'),
+(30045, 'dior', '12', 'dd', 'qq@g.l'),
+(30046, 'holyyy', '1', 'asd', 'aa@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -272,7 +286,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applicant`
 --
 ALTER TABLE `applicant`
-  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40037;
+  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40039;
 
 --
 -- AUTO_INCREMENT for table `application`
@@ -284,7 +298,7 @@ ALTER TABLE `application`
 -- AUTO_INCREMENT for table `qualification`
 --
 ALTER TABLE `qualification`
-  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10001;
+  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10067;
 
 --
 -- AUTO_INCREMENT for table `university`
@@ -302,7 +316,7 @@ ALTER TABLE `universityadmin`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30045;
+  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30047;
 
 --
 -- Constraints for dumped tables
