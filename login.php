@@ -33,7 +33,7 @@ include("header.php")
         <section class="login" >
             <!-- <img src="images/signup-bg.jpg" alt=""> -->
             <div class="container">
-                <div class="login-content" >
+                <div class="signup-content" >
                     <form method="POST" id="login-form" class="login-form" action="logincode.php">
                         <h2 class="form-title">Login</h2>
                         <div class="form-group">
@@ -45,10 +45,10 @@ include("header.php")
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" name="submit" id="submit" class="form-submit submit2" value="<?php echo $USERS?>">Submit</button>
+                            <button type="submit" name="submit" id="submit" class="form-submit submit2" value="<?php echo $USERS?>">Login</button>
                         </div>
                     </form>
-                    <p class="registerhere">
+                    <p class="loginhere">
                         Haven't register yet? <a href=signup.php class="loginhere-link">Register here</a>
                     </p>
                 </div>
