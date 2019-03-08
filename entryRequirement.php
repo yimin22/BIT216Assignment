@@ -35,7 +35,7 @@ h2{
 table {
   border-collapse: collapse;
   width: 70%;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   margin-top: 30px;
   margin-left:15%;
   margin-right: 15%;
@@ -45,25 +45,31 @@ table {
 th, td {
   text-align: left;
   padding: 15px;
+  color: black;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  background-color: #dbf6ff;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-color: white;
 }
-
-tr:nth-child(even){background-color: #f2f2f2}
 
 th {
   background-color: #14bdee;
   color: white;
+  font-family: Georgia, serif;
+  font-weight: bold;
+  font-size: 16px;
 }
+
 </style>
 </head>
-
 <body>
-
 <div class="super_container">
-
 <?php
 include("server.php");
-$page_title = $UNIVERSITY;
-include("header.php")?>
+include("header.php");
+  $qualification = $connect->query("SELECT * FROM qualification");
+?>
 
 <!-- Menu -->
 
@@ -97,7 +103,7 @@ include("header.php")?>
         <div class="col">
           <div class="breadcrumbs">
             <ul>
-              <li><a href="index.php">Home</a></li>
+              <li><a href="index.html">Home</a></li>
               <li>Entry Requirements</li>
             </ul>
           </div>
@@ -106,26 +112,40 @@ include("header.php")?>
     </div>
   </div>
 </div>
-</head>
 
 <!--Content-->
-
 <body>
 <h2>Entry Requirements</h2>
-<table>
-  <tr>
-    <th>Qualification Name</th>
-    <th>Caluculation of Overall Result</th>
-    <th>Grading System</th>
-  </tr>
-  <tr>
-    <td></td>
-    <td>Griffin</td>
-    <td>$100</td>
-  </tr>
-
+<?php	if(($qualification->num_rows) > 0){?>
+  <div>
+  <table>
+    <thead>
+      <tr>
+        <th>Qualification Name</th>
+        <th>Calculation of Overall Result</th>
+        <th>Minimum Score</th>
+        <th>Maximum Score</th>
+        <th>Grading System</th>
+      </tr>
+    </thead>
+    <tbody>
+    <?php while ($row = mysqli_fetch_array($qualification)){
+        echo "<tr>";
+        echo "<td>" . $row['qualificationName'] . "</td>";
+        echo "<td>" . $row['resultCalcDescription'] . "</td>";
+        echo "<td>" . $row['minimumScore'] . "</td>";
+        echo "<td>" . $row['maximumScore'] . "</td>";
+        $gradeArray = str_replace(',','<br/>',$row['gradeList']);
+        echo "<script>console.log('".$gradeArray."')</script>";
+        echo "<td>" . $gradeArray . "</td>";
+        echo "</tr>";
+    }
+    ?>
+  </tbody>
 </table>
+</div>
 
+<?php }else{ echo("There is no request.");}?>
 
 <?php include("footer.php")?>
 <script src="js/jquery-3.2.1.min.js"></script>
