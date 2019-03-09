@@ -34,7 +34,6 @@ if(isset($_SESSION['logged'])){
 } else{
 	 include("header.php");
 }
-$type = $SYSTEM_ADMIN;
 
 if(isset($_POST['qualificationName'])){
   $qualificationName = $_POST['qualificationName'];
