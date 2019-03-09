@@ -24,13 +24,16 @@
 <div class="super_container">
 
 <?php
+ob_start();
 include("server.php");
-$page_title = $SETUPQUALIFICATION;
+include("defaultValues.php");
+include("logincode.php");
 if(isset($_SESSION['logged'])){
 	include("headerLogin.php");
 } else{
 	 include("header.php");
-  }
+}
+$type = $SYSTEM_ADMIN;
 
 if(isset($_POST['qualificationName'])){
   $qualificationName = $_POST['qualificationName'];
@@ -38,33 +41,22 @@ if(isset($_POST['qualificationName'])){
   $maximumScore = $_POST['maximumScore'];
   $resultCalcDescription = $_POST['resultCalcDescription'];
   $gradeList = str_replace(PHP_EOL,',',$_POST['gradeList']);
-  //echo "<script>console.log('".$_POST['gradeList']."')</script>";
 
-  echo "<script>console.log('".$qualificationName."')</script>";
-  echo "<script>console.log('".$minimumScore."')</script>";
-  echo "<script>console.log('".$maximumScore."')</script>";
-  echo "<script>console.log('".$resultCalcDescription."')</script>";
-  echo "<script>console.log('".$gradeList."')</script>";
+	$values = warpQuote($qualificationName).",".$minimumScore.",".$maximumScore.",".warpQuote($resultCalcDescription).",".warpQuote($gradeList);
+  $sql = "INSERT INTO qualification (qualificationName, minimumScore, maximumScore, resultCalcDescription, gradeList) VALUES (" .$values.");";
 
+  $query = $connect->query("SELECT qualificationName FROM qualification WHERE qualificationName = '".$qualificationName."';")->num_rows;
 
-  /*$checkUserType = "SELECT type FROM userType";
-  if($connect->query($userType) == "SystemAdmin"){*/
-    $values = warpQuote($qualificationName).",".$minimumScore.",".$maximumScore.",".warpQuote($resultCalcDescription).",".warpQuote($gradeList);
-    $sql = "INSERT INTO qualification (qualificationName, minimumScore, maximumScore, resultCalcDescription, gradeList) VALUES (" .$values.");";
-
-    $query = $connect->query("SELECT qualificationName FROM qualification WHERE qualificationName = '".$qualificationName."';")->num_rows;
-    if($query){
-      $error = "$qualificationName has been recorded!";
-      echo "<script type='text/javascript'>alert('$error');</script>";
-      unset($qualificationName);
-    }
-    else{
-      $connect->query($sql);
-      header("Location: index.php");
-    }
-
-  //}
-
+	if($query){
+    $error = "$qualificationName has been recorded!";
+    echo "<script type='text/javascript'>alert('$error');</script>";
+    unset($qualificationName);
+  }
+  else{
+    $connect->query($sql);
+    header("Location: index.php");
+		exit();
+  }
 }
 
 ?>

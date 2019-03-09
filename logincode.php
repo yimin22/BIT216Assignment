@@ -1,5 +1,5 @@
 <?php
-if(isset($_SESSION['logged'])){
+if(!isset($_SESSION['logged'])){
   if($page_title != $LOGIN && $page_title != $SIGNUP){
     header("Location: login.php");
     exit();

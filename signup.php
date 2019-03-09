@@ -43,7 +43,6 @@ if(isset($_POST['username'])){
       $userValue = warpQuote($username).",".warpQuote($password).",".warpQuote($fullname).",".warpQuote($email);
       $sql1 = "INSERT INTO users (username, password, fullname, email) VALUES (".$userValue.");";
       $query = $connect->query("SELECT username FROM users WHERE username = '".$username."';")->num_rows;
-      //echo "<script>console.log('Query : ".$query."')</script>";
       if($query){
         $error = "$username has been taken!";
         echo "<script type='text/javascript'>alert('$error');</script>";
@@ -51,16 +50,12 @@ if(isset($_POST['username'])){
       }
       else{
         $connect->query($sql1);
-        //echo "<script>console.log('54')</script>";
         $selectUserID = mysqli_fetch_assoc($connect->query("SELECT userID FROM users WHERE username = '".$username."';"));
-        //echo "<script>console.log('56')</script>";
-        //echo "<script>console.log('".$selectUserID['userID']."')</script>";
         $applicantValue = $idNum.",".warpQuote($idType).",".warpQuote($dateOfBirth).",".$mobileNum.",".$selectUserID['userID'];
-        //echo "<script>console.log('".$applicantValue."')</script>";
         $sql2 = "INSERT INTO applicant (IDNumber, IDType, dateOfBirth, mobileNo, userID) VALUES (".$applicantValue.");";
-        //echo "<script>console.log('".$sql2."')</script>";
         $connect->query($sql2);
-				$_SESSION['logged']=$username;
+				$_SESSION['logged'] = $username;
+				$_SESSION['type'] = $APPLICANT;
         header("Location: index.php");
         exit();
       }

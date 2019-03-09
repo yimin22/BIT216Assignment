@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2019 at 01:33 PM
+-- Generation Time: Mar 09, 2019 at 05:43 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -44,8 +44,8 @@ CREATE TABLE `applicant` (
 INSERT INTO `applicant` (`applicantID`, `IDNumber`, `IDType`, `dateOfBirth`, `mobileNo`, `userID`) VALUES
 (40035, 950101223333, 'ic', '1990-11-22', 123456789, 30043),
 (40036, 970101232233, 'ic', '1997-02-11', 123456789, 30044),
-(40037, 123, 'ic', '2000-11-22', 123456789, 30045),
-(40038, 123456789, 'ic', '2000-11-22', 123456789, 30046);
+(40039, 904500234569, 'ic', '2000-10-31', 123456789, 30048),
+(40042, 976456700988, 'ic', '1990-11-22', 123456789, 30052);
 
 -- --------------------------------------------------------
 
@@ -142,7 +142,7 @@ CREATE TABLE `university` (
 --
 
 INSERT INTO `university` (`universityID`, `universityName`) VALUES
-(1, 'help uni');
+(20001, 'Help University');
 
 -- --------------------------------------------------------
 
@@ -156,6 +156,13 @@ CREATE TABLE `universityadmin` (
   `userID` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `universityadmin`
+--
+
+INSERT INTO `universityadmin` (`adminID`, `universityID`, `userID`) VALUES
+(60001, 20001, 30047);
+
 -- --------------------------------------------------------
 
 --
@@ -163,8 +170,10 @@ CREATE TABLE `universityadmin` (
 -- (See below for the actual view)
 --
 CREATE TABLE `userlogin` (
-`username` varchar(10)
+`userID` int(5)
+,`username` varchar(10)
 ,`password` varchar(20)
+,`type` varchar(15)
 );
 
 -- --------------------------------------------------------
@@ -188,19 +197,10 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`userID`, `username`, `password`, `fullname`, `email`) VALUES
 (30043, 'john', '123', 'john', 'john@gmail.com'),
 (30044, 'jackson', '123', 'jackson', 'jackson@gmail.com'),
-(30045, 'dior', '12', 'dd', 'qq@g.l'),
-(30046, 'holyyy', '1', 'asd', 'aa@gmail.com');
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `usertype`
--- (See below for the actual view)
---
-CREATE TABLE `usertype` (
-`userID` int(5)
-,`Type` varchar(15)
-);
+(30047, 'Jennie', '1234', 'Jennie Kim', 'jennie@gmail.com'),
+(30048, 'rose', '123', 'rose wong', 'rose@gmail.com'),
+(30050, 'Yimin', '1234', 'Yimin', 'yimin@gmail.com'),
+(30052, 'tamie', '123', 'tamie', 'tam@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -209,16 +209,7 @@ CREATE TABLE `usertype` (
 --
 DROP TABLE IF EXISTS `userlogin`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `userlogin`  AS  select `users`.`username` AS `username`,`users`.`password` AS `password` from `users` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `usertype`
---
-DROP TABLE IF EXISTS `usertype`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `usertype`  AS  select `u`.`userID` AS `userID`,(case when (`a`.`applicantID` is not null) then 'Applicant' when (`ua`.`universityID` is not null) then 'UniversityAdmin' else 'SystemAdmin' end) AS `Type` from ((`users` `u` left join `applicant` `a` on((`a`.`userID` = `u`.`userID`))) left join `universityadmin` `ua` on((`ua`.`userID` = `u`.`userID`))) order by `u`.`userID` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `userlogin`  AS  select `u`.`userID` AS `userID`,`u`.`username` AS `username`,`u`.`password` AS `password`,(case when (`a`.`applicantID` is not null) then 'Applicant' when (`ua`.`universityID` is not null) then 'UniversityAdmin' else 'SystemAdmin' end) AS `type` from ((`users` `u` left join `applicant` `a` on((`a`.`userID` = `u`.`userID`))) left join `universityadmin` `ua` on((`ua`.`userID` = `u`.`userID`))) order by `u`.`userID` ;
 
 --
 -- Indexes for dumped tables
@@ -286,37 +277,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applicant`
 --
 ALTER TABLE `applicant`
-  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40039;
+  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40043;
 
 --
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50001;
+  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `qualification`
 --
 ALTER TABLE `qualification`
-  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10067;
+  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10089;
 
 --
 -- AUTO_INCREMENT for table `university`
 --
 ALTER TABLE `university`
-  MODIFY `universityID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20001;
+  MODIFY `universityID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20002;
 
 --
 -- AUTO_INCREMENT for table `universityadmin`
 --
 ALTER TABLE `universityadmin`
-  MODIFY `adminID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60001;
+  MODIFY `adminID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60002;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30047;
+  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30053;
 
 --
 -- Constraints for dumped tables

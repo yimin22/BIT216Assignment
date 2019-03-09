@@ -36,9 +36,16 @@ if(isset($_POST["username"])){
   $compare = mysqli_fetch_assoc($sql);
   if($foundUser>0)
   {
-	   if($compare["password"] == $password){
+	   if($compare["password"] = $password){
 		      $_SESSION['logged'] = $username;
 		      $_SESSION['type'] = $compare['type'];
+					if($compare['type'] = "Applicant"){
+						$_SESSION['type'] == $APPLICANT;
+					} elseif($compare['type'] = "UniversityAdmin"){
+						$_SESSION['type'] == $UNIVERSITY_ADMIN;
+					} else{
+						$_SESSION['type'] == $SYSTEM_ADMIN;
+					}
           header("Location: index.php");
 		      exit();
 	     } else{

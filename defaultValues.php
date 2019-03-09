@@ -5,7 +5,7 @@ $UNIVERSITY = "University";
 $SIGNUP = "Sign Up";
 $LOGIN = "Login";
 $USERS = "Users";
-$JOMUNI_ADMIN = "JOMUNI Admin";
-$UNIVERSITY_ADMIN = "University Admin";
+$SYSTEM_ADMIN = "SystemAdmin";
+$UNIVERSITY_ADMIN = "UniversityAdmin";
 $APPLICANT = "Applicant";
  ?>

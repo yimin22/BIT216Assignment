@@ -85,25 +85,23 @@
                 <li><a href="about.php">About</a></li>
                 <li><a href="university.php">University</a></li>
                 <li><a href="entryRequirement.php">Entry Requirements</a></li>
-                <li><a href="signup.php">Sign Up</a></li>
                 <div class="dropdown">
                   <button class="dropbtn"><?php echo $_SESSION['logged'] ?></button>
                   <div class="dropdown-content">
                     <?php
-                    //$type = $connect->query("SELECT type FROM userlogin WHERE username LIKE ".$_SESSION['logged']."");
-                    if($_SESSION['type'] = "Applicant"){
+                    if($_SESSION['type'] == $APPLICANT){
                       echo"<ul>
                         <li><a href=\"applyProgramme.php\">Apply Programme</a></li>
                         <li><a href=\"applicantQualification.php\">My Qualification</a></li>
                         <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
                     </ul>";
-                  } else if($_SESSION['type'] = "UniversityAdmin"){
+                  } elseif($_SESSION['type'] == $UNIVERSITY_ADMIN){
                       echo "<ul>
                         <li><a href=\"recoreProgramme.php\">Record Programme</a></li>
                         <li><a href=\"reviewApplicant.php\">Review Applicant</a></li>
                         <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
                     </ul>";
-                  } else if($_SESSION['type'] = "SystemAdmin"){
+                  } elseif($_SESSION['type'] == $SYSTEM_ADMIN){
                     echo "<ul>
                       <li><a href=\"setUpQualification.php\">Set Up Qualification</a></li>
                       <li><a href=\"recordUniversity.php\">Record University</a></li>
@@ -111,15 +109,11 @@
                   </ul>";
                   }echo "<script>console.log('".$_SESSION['type']."')</script>";
                   ?>
-
-
                   </div>
                 </div>
               </ul>
               <div class="search_button"><i class="fa fa-search" aria-hidden="true"></i></div>
-
             </nav>
-
           </div>
         </div>
       </div>
