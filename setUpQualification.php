@@ -27,6 +27,7 @@
 ob_start();
 include("server.php");
 include("defaultValues.php");
+$type = $SYSTEM_ADMIN;
 include("logincode.php");
 if(isset($_SESSION['logged'])){
 	include("headerLogin.php");
