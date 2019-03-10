@@ -14,6 +14,54 @@
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 <link rel="stylesheet" type="text/css" href="styles/courses.css">
 <link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
+<link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+<style>
+.tablelist
+{
+	font-family: 'Questrial',cursive;
+  border-collapse: collapse;
+	width: 85%;
+	height: 300px;
+	margin: auto;
+  box-shadow: 0px 11px 35px 2px rgba(0.1, 0, 0, 0.2);
+
+
+}
+
+th{
+
+	text-align: left;
+  padding: 10px;
+	padding-left: 30px;
+	padding-right: 320px;
+  color: black;
+  font-weight: bolder;
+  font-family: 'Questrial',cursive;
+	color: DodgerBlue;
+  background-color: WhiteSmoke;
+  font-size: 30px;
+  border-left: 10px solid white;
+
+
+
+}
+.titleTable{
+  text-align: center;
+  margin-top: 25px;
+	padding-top: 20px;
+  margin-bottom: 20px;
+}
+td{
+  background-color: white;
+  font-size: 25px;
+  padding-left: 30px;
+	border-left: 5px solid;
+	border-left-color: white;
+  border-bottom: 5px solid PapayaWhip;
+
+
+}
+</style>
 </head>
 <body>
 
@@ -21,11 +69,15 @@
 
 <?php
 include("server.php");
+include("defaultValues.php");
 if(isset($_SESSION['logged'])){
 	include("headerLogin.php");
 } else{
 	 include("header.php");
   }
+$universities = $connect->query("SELECT universityName FROM university");
+$uniEmail = mysqli_fetch_assoc($connect->query("SELECT email FROM users WHERE userID = '".$userID."';"));
+
 ?>
 
 	<!-- Menu -->
@@ -69,6 +121,29 @@ if(isset($_SESSION['logged'])){
 			</div>
 		</div>
 	</div>
+	<div class="tablelist">
+		<table class="mysUni">
+			<h3 class="titleTable">List of Malaysia Universities</h3>
+			<thead>
+				<tr class="top_content">
+					<th>University Name</th>
+					<th>Contact info </th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php
+				if(($universities->num_rows) > 0){
+					while ($row = mysqli_fetch_array($universities)){
+						echo "<tr>";
+						echo "<td>" . $row['universityName'] . "</td>";
+						/*echo "<td>" . $row['email']. "</td>";*/
+						echo "</tr>";
+					}}
+					?>
+				</tbody>
+			</table>
+		</div>
+&nbsp;&nbsp;
 
 
 
