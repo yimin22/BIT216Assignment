@@ -111,7 +111,7 @@ if(isset($_SESSION['logged'])){
       $uniAdminValues = $selectUniID['universityID'].",".$selectUserID['userID'];
       $sql3 = "INSERT INTO universityadmin (universityID, userID) VALUES(".$uniAdminValues.");";
       $connect->query($sql3);
-      header("Location: recordUniversiy.php");
+      header("Location: index.php");
   		exit();
     }
   }
