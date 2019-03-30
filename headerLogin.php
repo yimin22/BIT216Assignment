@@ -97,7 +97,7 @@
                     </ul>";
                   } elseif($_SESSION['type'] == $UNIVERSITY_ADMIN){
                       echo "<ul>
-                        <li><a href=\"recoreProgramme.php\">Record Programme</a></li>
+                        <li><a href=\"recordProgramme.php\">Record Programme</a></li>
                         <li><a href=\"reviewApplicant.php\">Review Application</a></li>
                         <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
                     </ul>";
