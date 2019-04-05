@@ -98,12 +98,14 @@
                   } elseif($_SESSION['type'] == $UNIVERSITY_ADMIN){
                       echo "<ul>
                         <li><a href=\"recordProgramme.php\">Record Programme</a></li>
-                        <li><a href=\"reviewApplicant.php\">Review Application</a></li>
+                        <li><a href=\"manageProgramme.php\"><font color=\"00008B\">Manage Programme</a></li>
+                        <li><a href=\"reviewApplication.php\">Review Application</a></li>
                         <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
                     </ul>";
                   } elseif($_SESSION['type'] == $SYSTEM_ADMIN){
                     echo "<ul>
                       <li><a href=\"setUpQualification.php\">Set Up Qualification</a></li>
+                      <li><a href=\"manageQualification.php\"><font color=\"00008B\">Manage Qualification</a></li>
                       <li><a href=\"recordUniversity.php\">Record University</a></li>
                       <li><a href=\"logout.php\"><font color=\"FF0000\">Logout</font></a></li>
                   </ul>";

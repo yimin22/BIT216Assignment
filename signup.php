@@ -78,6 +78,7 @@ if(isset($_POST['username'])){
                         <div class="form-group">
                             <input type="text" class="form-input" name="username" id="username" placeholder="Username" required <?php echo isset($username)?"value=".warpQuote($username):""; ?>>
                         </div>
+
                         <div class="form-group">
                             <input type="password" class="form-input" name="password" id="password" placeholder="Password" required <?php echo isset($password)?"value=".warpQuote($password):""; ?>>
                             <span toggle="#password" class="zmdi zmdi-eye-off field-icon toggle-password"></span>
@@ -97,9 +98,12 @@ if(isset($_POST['username'])){
                         <div class="form-group">
                             <input type="text" class="form-input" name="id_type" id="id_type" placeholder="ID Type (IC / Passport)" required <?php echo isset($idType)?"value=".warpQuote($idType):""; ?>>
                         </div>
+
                         <div class="form-group">
                             <input type="date" class="form-input" name="dateOfBirth" id="dateOfBirth" placeholder="Date of Birth" required <?php echo isset($dateOfBirth)?"value=".warpQuote($dateOfBirth):""; ?>>
-                        </div>
+														<div class="name">**Date Of Birth**</div>
+												</div>
+
                         <div class="form-group">
                             <input type="tel" class="form-input" name="mobile_no" id="mobile_no" placeholder="Mobile Number" required <?php echo isset($mobileNum)?"value=".$mobileNum:""; ?>>
                         </div>

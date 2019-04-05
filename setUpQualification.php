@@ -70,7 +70,7 @@ if(isset($_POST['qualificationName'])){
                     <form method="post" id="signup-form" name="SetUpQualification" class="signup-form">
                         <h2 class="form-title">Set Up Qualification</h2>
                         <div class="form-group">
-                            <input type="text" class="form-input" name="qualificationName" id="qualificatonName" placeholder="Qualification Name" required <?php echo isset($qualificationName)?"value=".warpQuote($qualificationName):"";?>>
+													<input type="text" class="form-input" name="qualificationName" id="qualificatonName" placeholder="Qualification Name" required <?php echo isset($qualificationName)?"value=".warpQuote($qualificationName):"";?>>
                         </div>
                         <div class="form-group">
                             <input type="number" class="form-input" name="minimumScore" id="minimumScore" placeholder="Minimum Score" required <?php echo isset($minimumScore)?"value=".warpQuote($minimumScore):"";?>>

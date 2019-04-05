@@ -24,6 +24,7 @@
 <div class="super_container">
 
 <?php
+ob_start();
 include("server.php");
 include("defaultValues.php");
 $type = $UNIVERSITY_ADMIN;
@@ -61,7 +62,7 @@ if(isset($_POST['programmeName'])){
   }
   else{
     $connect->query($sql);
-    //header("Location: index.php");
+    header("Location: index.php");
 		exit();
   }
 }
@@ -87,7 +88,8 @@ if(isset($_POST['programmeName'])){
                         </div>
                         <div class="form-group">
                             <input type="date" class="form-input" name="closingDate" id="closingDate" placeholder="Closing Date" required <?php echo isset($closingDate)?"value=".warpQuote($closingDate):"";?>>
-                        </div>
+														<div class="name">**Closing Date**</div>
+												</div>
                         <div class="form-group">
                             <textarea rows="3" cols="50" class="form-input" name="academicQualification" id="gradeList" placeholder="Academic Qualification"></textarea>
                         </div>

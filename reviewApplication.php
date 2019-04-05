@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Entry Requirements</title>
+<title>Review Application</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="Unicat project">
+<meta name="description" content="JOMUNI project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-<link rel="stylesheet" type="text/css" href="styles/courses.css">
-<link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
-<style>
+<link rel="stylesheet" type="text/css" href="styles/responsive.css">
+<!-- Font Icon -->
+<link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+<!-- Main css -->
+<link rel="stylesheet" href="styles/style.css">
+<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
 
+<style>
 h2{
   	font-family: 'Roboto Slab', serif;
   	font-weight: 700;
@@ -29,7 +32,7 @@ h2{
     margin: 0;
     padding: 0;
     margin-bottom: 20px;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 table {
@@ -63,18 +66,23 @@ th {
 
 </style>
 </head>
+
 <body>
 <div class="super_container">
 
 <?php
+ob_start();
 include("server.php");
+include("defaultValues.php");
+$type = $UNIVERSITY_ADMIN;
+include("logincode.php");
 if(isset($_SESSION['logged'])){
 	include("headerLogin.php");
 } else{
 	 include("header.php");
-  }
+}
 
-$qualification = $connect->query("SELECT * FROM qualification");
+$programme = $connect->query("SELECT * FROM programme");
 ?>
 
 <!-- Menu -->
@@ -100,50 +108,24 @@ $qualification = $connect->query("SELECT * FROM qualification");
   </nav>
 </div>
 
-<!-- Home -->
-
-<div class="home">
-  <div class="breadcrumbs_container">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="breadcrumbs">
-            <ul>
-              <li><a href="index.php">Home</a></li>
-              <li>Entry Requirements</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!--Content-->
 <body>
-<h2>Entry Requirements</h2>
-<?php	if(($qualification->num_rows) > 0){?>
+<h2>Review Application</h2>
+
   <div>
   <table>
     <thead>
       <tr>
-        <th>Qualification Name</th>
-        <th>Calculation of Overall Result</th>
-        <th>Minimum Score</th>
-        <th>Maximum Score</th>
-        <th>Grading System</th>
+        <th>Programme Code</th>
+        <th>Programme Name</th>
+        <th>Applied Applicants</th>
       </tr>
     </thead>
     <tbody>
-    <?php while ($row = mysqli_fetch_array($qualification)){
+    <?php while ($row = mysqli_fetch_array($programme)){
         echo "<tr>";
-        echo "<td>" . $row['qualificationName'] . "</td>";
-        echo "<td>" . $row['resultCalcDescription'] . "</td>";
-        echo "<td>" . $row['minimumScore'] . "</td>";
-        echo "<td>" . $row['maximumScore'] . "</td>";
-        $gradeArray = str_replace(',','<br/>',$row['gradeList']);
-        echo "<script>console.log('".$gradeArray."')</script>";
-        echo "<td>" . $gradeArray . "</td>";
+        echo "<td>" . $row['programmeCode'] . "</td>";
+        echo "<td>" . $row['programmeName'] . "</td>";
         echo "</tr>";
     }
     ?>
@@ -151,9 +133,9 @@ $qualification = $connect->query("SELECT * FROM qualification");
 </table>
 </div>
 
-<?php }else{ echo("There is no request.");}?>
 
 <?php include("footer.php")?>
+
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
@@ -166,8 +148,12 @@ $qualification = $connect->query("SELECT * FROM qualification");
 <script src="plugins/easing/easing.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
-
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="js/main.js"></script>
+<script  type="text/javascript">
+$('#ProgrammeSelect').change(function(){
+            $('#getProgBtn').click();
+})
+</script>
 </body>
 </html>
