@@ -49,12 +49,12 @@ if(isset($_POST['programmeName'])){
   echo "<script>console.log('".$academicQualification."')</script>";
 
 	$getUniversityID = $connect->query("SELECT universityID FROM universityadmin WHERE userID LIKE (SELECT userID FROM users WHERE username LIKE '".$_SESSION['logged']."')")->fetch_assoc()['universityID'];
-	echo "<script>console.log('".$getUniversityID."')</script>";
+
 	$values = warpQuote($programmeCode).",".warpQuote($programmeName).",".warpQuote($description).",".warpQuote($closingDate).",".warpQuote($academicQualification).",".warpQuote($getUniversityID);
   $sql = "INSERT INTO programme (programmeCode, programmeName, description, closingDate, academicQualification, universityID) VALUES (" .$values.");";
 
   $query = $connect->query("SELECT programmeName FROM programme WHERE programmeName = '".$programmeName."';")->num_rows;
-
+	echo "<script>console.log('".$getUniversityID."')</script>";
 	if($query){
     $error = "$programmeName has been recorded!";
     echo "<script type='text/javascript'>alert('$error');</script>";

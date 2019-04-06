@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>University</title>
+<title>Programme</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="description" content="Unicat project">
@@ -14,6 +14,8 @@
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
 <link rel="stylesheet" type="text/css" href="styles/courses.css">
 <link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
+<link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
 <style>
 
 h2{
@@ -43,7 +45,7 @@ table {
 }
 
 th, td {
-  text-align: left;
+  text-align: justify;
   padding: 15px;
   color: black;
   font-family: "Comic Sans MS", cursive, sans-serif;
@@ -61,8 +63,37 @@ th {
   font-size: 16px;
 }
 
+.button {
+  display:inline-block;
+  cursor: pointer;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  padding:20px 20px;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+	margin-bottom: 30px;
+	margin-left: 38%;
+	width:25%;
+  text-transform: uppercase;
+  border: none;
+  background-image: -moz-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -ms-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -o-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: -webkit-linear-gradient(to left, #74ebd5, #9face6);
+  background-image: linear-gradient(to left, #74ebd5, #9face6); }
+}
+
+}
+
 </style>
+
 </head>
+
 <body>
 <div class="super_container">
 
@@ -87,7 +118,8 @@ if(isset($_SESSION['logged'])){
           <div class="breadcrumbs">
             <ul>
               <li><a href="index.php">Home</a></li>
-              <li>University</li>
+              <li><a href="university.php">University</a></li>
+							<li>Programme</li>
             </ul>
           </div>
         </div>
@@ -98,39 +130,35 @@ if(isset($_SESSION['logged'])){
 
 <!--Content-->
 <body>
-<h2>University</h2>
+<h2>Programme</h2>
+
   <div>
-  <form method="post" action="programmeDetails.php">
   <table>
     <thead>
       <tr>
-        <th>University</th>
-        <th>Programmes</th>
+        <th>Programme Name</th>
+        <th>About the Programme</th>
+        <th>Closing Date</th>
+        <th>Academic Qualification</th>
       </tr>
     </thead>
     <tbody>
     <?php
-    $Universities = $connect->query("SELECT universityID AS ID, universityName AS Name FROM university");
-    foreach ($Universities as $university){
-      $list = "";
-      $listOfProgramme = $connect->query("SELECT programmeName AS Name FROM programme WHERE universityID = ".$university['ID'].";");
-      if(($listOfProgramme->num_rows) < 1){
-        $list = "No Programme Offered";
-      } else {
-        $ProgrammeArray = array();
-        foreach($listOfProgramme as $programme){
-          array_push($ProgrammeArray, $programme['Name']);
-        }
-        $list = join("\n",$ProgrammeArray);
-      }
-      echo "<tr><td>" . $university['Name'] . "</td>";
-      echo "<td><a href='programmeDetails.php'>" . nl2br($list) . "</td></tr>";
-    }
+    
+      echo "<td></td>";
+      echo "<td></td>";
+      echo "<td></td>";
+      echo "<td></td>";
+      echo "</tr>";
+
     ?>
-  </tbody>
-</table>
-</form>
-</div>
+	  </tbody>
+	</table>
+	</div>
+
+	<div>
+		<button class="button" ><a href="applyProgramme.php">Apply Now</a></button>
+	</div>
 
 <?php include("footer.php")?>
 <script src="js/jquery-3.2.1.min.js"></script>
