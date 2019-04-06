@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2019 at 05:43 PM
+-- Generation Time: Apr 06, 2019 at 08:32 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -45,7 +45,8 @@ INSERT INTO `applicant` (`applicantID`, `IDNumber`, `IDType`, `dateOfBirth`, `mo
 (40035, 950101223333, 'ic', '1990-11-22', 123456789, 30043),
 (40036, 970101232233, 'ic', '1997-02-11', 123456789, 30044),
 (40039, 904500234569, 'ic', '2000-10-31', 123456789, 30048),
-(40042, 976456700988, 'ic', '1990-11-22', 123456789, 30052);
+(40042, 976456700988, 'ic', '1990-11-22', 123456789, 30052),
+(40043, 9762300383030, 'ic', '1998-02-13', 123456789, 30057);
 
 -- --------------------------------------------------------
 
@@ -57,8 +58,17 @@ CREATE TABLE `application` (
   `applicationID` int(5) NOT NULL,
   `applicationDate` date NOT NULL,
   `status` varchar(10) NOT NULL,
-  `applicantID` int(5) NOT NULL
+  `applicantID` int(5) NOT NULL,
+  `programmeCode` char(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `application`
+--
+
+INSERT INTO `application` (`applicationID`, `applicationDate`, `status`, `applicantID`, `programmeCode`) VALUES
+(1, '2019-04-11', 'Pending', 40035, 'BOB'),
+(2, '2019-04-13', 'Pending', 40036, 'BIT');
 
 -- --------------------------------------------------------
 
@@ -67,14 +77,22 @@ CREATE TABLE `application` (
 --
 
 CREATE TABLE `programme` (
-  `programmeCode` int(3) NOT NULL,
+  `programmeCode` char(3) NOT NULL,
   `programmeName` varchar(60) NOT NULL,
   `description` varchar(150) NOT NULL,
   `closingDate` date NOT NULL,
   `academicQualification` varchar(150) NOT NULL,
-  `numOfApplication` int(3) NOT NULL,
   `universityID` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `programme`
+--
+
+INSERT INTO `programme` (`programmeCode`, `programmeName`, `description`, `closingDate`, `academicQualification`, `universityID`) VALUES
+('BIT', 'Bachelor of Information Teechnology', 'About information technology', '2019-11-22', 'Credit in Mathematics', 20001),
+('BOB', 'Bachelor of Business', 'About business things.', '2019-10-20', 'Credit in Mathematics.', 20001),
+('BOP', 'Bachelor of Psychology', 'About psychology', '2019-09-20', 'Credit in English', 20004);
 
 -- --------------------------------------------------------
 
@@ -96,11 +114,12 @@ CREATE TABLE `qualification` (
 --
 
 INSERT INTO `qualification` (`qualificationID`, `qualificationName`, `minimumScore`, `maximumScore`, `resultCalcDescription`, `gradeList`) VALUES
-(10062, 'A-Levels', 1, 5, 'Average of best 3 subjects.', 'Aâ€“5 points,Bâ€“4 points,Câ€“3 points,D-2 points,Eâ€“1 point'),
-(10063, 'Unified Examination Certificate(UEC)', 5, 30, 'Total of best 5 subjects.', 'A1 - 1 point,A2 - 2 points,B3 - 3 points,B4 - 4 points,B5 - 5 points,B6 - 6 points'),
-(10064, 'STPM', 0, 4, 'Average of best 3 subjects.', 'A   (4.00),A-  (3.67),B+  (3.33),B   (3.00),B-  (2.67),C+  (2.33),C   (2.00),B+  (1.67),D+  (1.33),D   (1.00),F   (0.00),'),
+(10063, 'Unified Examination Certificate(UEC)', 1, 5, 'Total of best 5 subjects.', 'A1 - 1 point,A2 - 2 points,B3 - 3 points,B4 - 4 points,B5 - 5 points,B6 - 6 points'),
+(10064, 'STPM', 1, 4, 'Average of best 3 subjects.', 'A   (4.00),A-  (3.67),B+  (3.33),B   (3.00),B-  (2.67),C+  (2.33),C   (2.00),B+  (1.67),D+  (1.33),D   (1.00),F   (0.00),'),
 (10065, 'Australian Matriculation', 0, 100, 'Average of best 4 subjects.', '0 - 100%'),
-(10066, 'Canadian Pre University', 0, 100, 'Average of 6 subjects.', '0 -100%');
+(10089, 'Canadian Pre University', 0, 100, 'Average of 6 subjects.', '0 - 100%'),
+(10091, 'International Baccalaureate', 0, 42, 'Total of 6 subjects.', '0 â€“ 7 points per subject'),
+(10092, 'A-Levels', 0, 5, 'Average of best 3 subjects', 'A-5,B-4,C-3,D-4,E-5');
 
 -- --------------------------------------------------------
 
@@ -142,7 +161,10 @@ CREATE TABLE `university` (
 --
 
 INSERT INTO `university` (`universityID`, `universityName`) VALUES
-(20001, 'Help University');
+(20001, 'Help University'),
+(20004, 'Taylors University'),
+(20005, 'Sunway University'),
+(20006, 'Monash University');
 
 -- --------------------------------------------------------
 
@@ -161,7 +183,10 @@ CREATE TABLE `universityadmin` (
 --
 
 INSERT INTO `universityadmin` (`adminID`, `universityID`, `userID`) VALUES
-(60001, 20001, 30047);
+(60001, 20001, 30047),
+(60004, 20004, 30055),
+(60005, 20005, 30056),
+(60006, 20006, 30058);
 
 -- --------------------------------------------------------
 
@@ -200,7 +225,11 @@ INSERT INTO `users` (`userID`, `username`, `password`, `fullname`, `email`) VALU
 (30047, 'Jennie', '1234', 'Jennie Kim', 'jennie@gmail.com'),
 (30048, 'rose', '123', 'rose wong', 'rose@gmail.com'),
 (30050, 'Yimin', '1234', 'Yimin', 'yimin@gmail.com'),
-(30052, 'tamie', '123', 'tamie', 'tam@gmail.com');
+(30052, 'tamie', '123', 'tamie', 'tam@gmail.com'),
+(30055, 'Taylors', '1234', '', 'taylorsuni@gmail.com'),
+(30056, 'Sunway', '1234', '', 'sunwayuni@gmail.com'),
+(30057, 'miki', '1234', 'miki', 'miki@gmail.com'),
+(30058, 'monash', '1234', '', 'info.monash@gmail.co');
 
 -- --------------------------------------------------------
 
@@ -227,7 +256,8 @@ ALTER TABLE `applicant`
 --
 ALTER TABLE `application`
   ADD PRIMARY KEY (`applicationID`),
-  ADD KEY `applicantID` (`applicantID`);
+  ADD KEY `applicantID` (`applicantID`),
+  ADD KEY `programmeCode` (`programmeCode`);
 
 --
 -- Indexes for table `programme`
@@ -277,37 +307,37 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `applicant`
 --
 ALTER TABLE `applicant`
-  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40043;
+  MODIFY `applicantID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40044;
 
 --
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `qualification`
 --
 ALTER TABLE `qualification`
-  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10089;
+  MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10093;
 
 --
 -- AUTO_INCREMENT for table `university`
 --
 ALTER TABLE `university`
-  MODIFY `universityID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20002;
+  MODIFY `universityID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20007;
 
 --
 -- AUTO_INCREMENT for table `universityadmin`
 --
 ALTER TABLE `universityadmin`
-  MODIFY `adminID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60002;
+  MODIFY `adminID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60007;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30053;
+  MODIFY `userID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30059;
 
 --
 -- Constraints for dumped tables
@@ -323,7 +353,8 @@ ALTER TABLE `applicant`
 -- Constraints for table `application`
 --
 ALTER TABLE `application`
-  ADD CONSTRAINT `application_ibfk_1` FOREIGN KEY (`applicantID`) REFERENCES `applicant` (`applicantID`);
+  ADD CONSTRAINT `application_ibfk_1` FOREIGN KEY (`applicantID`) REFERENCES `applicant` (`applicantID`),
+  ADD CONSTRAINT `application_ibfk_2` FOREIGN KEY (`programmeCode`) REFERENCES `programme` (`programmeCode`);
 
 --
 -- Constraints for table `programme`
