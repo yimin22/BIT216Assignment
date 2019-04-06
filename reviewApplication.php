@@ -4,21 +4,18 @@
 <title>Review Application</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="JOMUNI project">
+<meta name="description" content="Unicat project">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="styles/bootstrap4/bootstrap.min.css">
 <link href="plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="plugins/colorbox/colorbox.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.carousel.css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
 <link rel="stylesheet" type="text/css" href="plugins/OwlCarousel2-2.2.1/animate.css">
-<link rel="stylesheet" type="text/css" href="styles/responsive.css">
-<!-- Font Icon -->
-<link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-<!-- Main css -->
-<link rel="stylesheet" href="styles/style.css">
-<link rel="stylesheet" type="text/css" href="styles/main_styles.css">
-
+<link rel="stylesheet" type="text/css" href="styles/courses.css">
+<link rel="stylesheet" type="text/css" href="styles/courses_responsive.css">
 <style>
+
 h2{
   	font-family: 'Roboto Slab', serif;
   	font-weight: 700;
@@ -32,7 +29,7 @@ h2{
     margin: 0;
     padding: 0;
     margin-bottom: 20px;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 table {
@@ -66,7 +63,6 @@ th {
 
 </style>
 </head>
-
 <body>
 <div class="super_container">
 
@@ -81,31 +77,25 @@ if(isset($_SESSION['logged'])){
 } else{
 	 include("header.php");
 }
-
-$programme = $connect->query("SELECT * FROM programme");
 ?>
 
-<!-- Menu -->
+<!-- Home -->
 
-<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
-  <div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
-  <div class="search">
-    <form action="#" class="header_search_form menu_mm">
-      <input type="search" class="search_input menu_mm" placeholder="Search" required="required">
-      <button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
-        <i class="fa fa-search menu_mm" aria-hidden="true"></i>
-      </button>
-    </form>
+<div class="home">
+  <div class="breadcrumbs_container">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="breadcrumbs">
+            <ul>
+              <li><a href="index.php">Home</a></li>
+              <li>Review Application</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <nav class="menu_nav">
-    <ul class="menu_mm">
-      <li class="menu_mm"><a href="index.php">Home</a></li>
-      <li class="menu_mm"><a href="#">About</a></li>
-      <li class="menu_mm"><a href="#">University</a></li>
-      <li class="menu_mm"><a href="#">Sign Up</a></li>
-      <li class="menu_mm"><a href="#">Login</a></li>
-    </ul>
-  </nav>
 </div>
 
 <!--Content-->
@@ -122,20 +112,36 @@ $programme = $connect->query("SELECT * FROM programme");
       </tr>
     </thead>
     <tbody>
-    <?php while ($row = mysqli_fetch_array($programme)){
-        echo "<tr>";
-        echo "<td>" . $row['programmeCode'] . "</td>";
-        echo "<td>" . $row['programmeName'] . "</td>";
-        echo "</tr>";
-    }
+    <?php
+
+    $programmes = $connect->query("SELECT programmeCode as code, programmeName AS name FROM programme WHERE universityID = (SELECT universityID FROM universityadmin WHERE userID LIKE (SELECT userID FROM users WHERE username LIKE '".$_SESSION['logged']."'))");
+
+    foreach ($programmes as $programme){
+      $applicants = $connect->query("SELECT U.fullname,A.applicationID
+          FROM users AS U
+              INNER JOIN application AS A ON A.applicantID = (SELECT applicantID FROM applicant WHERE userID = U.userID)
+                WHERE A.status = 'Pending' AND A.programmeCode = '".$programme['code']."'");
     ?>
+      <tr>
+      <td><?php echo $programme['code'];?></td>
+      <td><?php echo $programme['name'];?></td>
+      <td><?php
+        $applicantArray = array();
+        foreach($applicants as $applicant){
+          array_push($applicantArray, array($applicant['fullname'],$applicant['applicationID']));
+        }
+        if(sizeOf($applicantArray)<1){
+          echo "No Application!";
+        }else{
+      foreach( $applicantArray AS $applicantDetail ) {  ?>
+              <a href="applicantDetails.php?applicationID=<?php echo $applicantDetail[1];?>"><?php echo $applicantDetail[0];?></a><br><?php }unset($applicantArray); ?></td>
+      </tr>
+    <?php }} ?>
   </tbody>
 </table>
 </div>
 
-
 <?php include("footer.php")?>
-
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="styles/bootstrap4/popper.js"></script>
 <script src="styles/bootstrap4/bootstrap.min.js"></script>
@@ -148,12 +154,8 @@ $programme = $connect->query("SELECT * FROM programme");
 <script src="plugins/easing/easing.js"></script>
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="js/custom.js"></script>
+
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="js/main.js"></script>
-<script  type="text/javascript">
-$('#ProgrammeSelect').change(function(){
-            $('#getProgBtn').click();
-})
-</script>
 </body>
 </html>
