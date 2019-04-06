@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 06, 2019 at 08:32 PM
+-- Generation Time: Apr 07, 2019 at 01:20 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -67,8 +67,10 @@ CREATE TABLE `application` (
 --
 
 INSERT INTO `application` (`applicationID`, `applicationDate`, `status`, `applicantID`, `programmeCode`) VALUES
-(1, '2019-04-11', 'Pending', 40035, 'BOB'),
-(2, '2019-04-13', 'Pending', 40036, 'BIT');
+(1, '2019-04-11', 'Declined', 40035, 'BOB'),
+(2, '2019-04-13', 'Offered', 40036, 'BIT'),
+(3, '2019-04-10', 'Offered', 40042, 'BIT'),
+(4, '2019-04-10', 'Pending', 40042, 'BOP');
 
 -- --------------------------------------------------------
 
@@ -90,7 +92,8 @@ CREATE TABLE `programme` (
 --
 
 INSERT INTO `programme` (`programmeCode`, `programmeName`, `description`, `closingDate`, `academicQualification`, `universityID`) VALUES
-('BIT', 'Bachelor of Information Teechnology', 'About information technology', '2019-11-22', 'Credit in Mathematics', 20001),
+('BIT', 'Bachelor of Information Technology', 'About information technology', '2019-11-22', 'Credit in Mathematics', 20001),
+('BMC', 'Bachelor of Mobile Computing', 'About mobile computing ', '2019-10-30', 'Credit in English,Credit in Mathematics', 20001),
 ('BOB', 'Bachelor of Business', 'About business things.', '2019-10-20', 'Credit in Mathematics.', 20001),
 ('BOP', 'Bachelor of Psychology', 'About psychology', '2019-09-20', 'Credit in English', 20004);
 
@@ -124,26 +127,27 @@ INSERT INTO `qualification` (`qualificationID`, `qualificationName`, `minimumSco
 -- --------------------------------------------------------
 
 --
--- Table structure for table `qualificationobtained`
+-- Table structure for table `results`
 --
 
-CREATE TABLE `qualificationobtained` (
-  `overallScore` double NOT NULL,
-  `applicantID` int(5) NOT NULL,
+CREATE TABLE `results` (
+  `ID` int(11) NOT NULL,
+  `applicant` int(5) NOT NULL,
+  `subjectName` varchar(20) NOT NULL,
+  `grade` char(2) DEFAULT NULL,
+  `score` double DEFAULT '0',
   `qualificationID` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `result`
+-- Dumping data for table `results`
 --
 
-CREATE TABLE `result` (
-  `subjectName` varchar(60) NOT NULL,
-  `grade` char(2) NOT NULL,
-  `score` double NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `results` (`ID`, `applicant`, `subjectName`, `grade`, `score`, `qualificationID`) VALUES
+(1, 40036, 'Bahasa Malaysia', 'A', 0, 10064),
+(2, 40036, 'English', 'B', 0, 10064),
+(3, 40036, 'Bahasa Melayu', 'A', 0, 10064),
+(4, 40036, 'Mathematics', 'A', 0, 10064);
 
 -- --------------------------------------------------------
 
@@ -221,7 +225,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userID`, `username`, `password`, `fullname`, `email`) VALUES
 (30043, 'john', '123', 'john', 'john@gmail.com'),
-(30044, 'jackson', '123', 'jackson', 'jackson@gmail.com'),
+(30044, 'jackson', '123', 'Jackson Wang', 'jackson@gmail.com'),
 (30047, 'Jennie', '1234', 'Jennie Kim', 'jennie@gmail.com'),
 (30048, 'rose', '123', 'rose wong', 'rose@gmail.com'),
 (30050, 'Yimin', '1234', 'Yimin', 'yimin@gmail.com'),
@@ -273,10 +277,11 @@ ALTER TABLE `qualification`
   ADD PRIMARY KEY (`qualificationID`);
 
 --
--- Indexes for table `qualificationobtained`
+-- Indexes for table `results`
 --
-ALTER TABLE `qualificationobtained`
-  ADD KEY `applicantID` (`applicantID`),
+ALTER TABLE `results`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `applicant` (`applicant`),
   ADD KEY `qualificationID` (`qualificationID`);
 
 --
@@ -313,13 +318,19 @@ ALTER TABLE `applicant`
 -- AUTO_INCREMENT for table `application`
 --
 ALTER TABLE `application`
-  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `applicationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `qualification`
 --
 ALTER TABLE `qualification`
   MODIFY `qualificationID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10093;
+
+--
+-- AUTO_INCREMENT for table `results`
+--
+ALTER TABLE `results`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `university`
@@ -363,11 +374,11 @@ ALTER TABLE `programme`
   ADD CONSTRAINT `programme_ibfk_1` FOREIGN KEY (`universityID`) REFERENCES `university` (`universityID`);
 
 --
--- Constraints for table `qualificationobtained`
+-- Constraints for table `results`
 --
-ALTER TABLE `qualificationobtained`
-  ADD CONSTRAINT `qualificationobtained_ibfk_1` FOREIGN KEY (`applicantID`) REFERENCES `applicant` (`applicantID`),
-  ADD CONSTRAINT `qualificationobtained_ibfk_2` FOREIGN KEY (`qualificationID`) REFERENCES `qualification` (`qualificationID`);
+ALTER TABLE `results`
+  ADD CONSTRAINT `results_ibfk_1` FOREIGN KEY (`applicant`) REFERENCES `applicant` (`applicantID`),
+  ADD CONSTRAINT `results_ibfk_2` FOREIGN KEY (`qualificationID`) REFERENCES `qualification` (`qualificationID`);
 
 --
 -- Constraints for table `universityadmin`
