@@ -38,6 +38,48 @@ label{
 .myQualification-form{
   padding:2em;
 }
+button .cancel{
+  background-color: white;
+}
+.form-submit submit3{
+  background-color: white;
+}
+
+.recordQuaTable
+{
+	font-family: 'Questrial',cursive;
+  border-collapse: collapse;
+	width: 70%;
+	margin: auto;
+  box-shadow: 0px 11px 35px 2px rgba(0.1, 0, 0, 0.2);
+
+
+}
+th{
+  text-align: left;
+  padding: 8px;
+  color: black;
+  font-weight: bolder;
+  font-family: 'Questrial',cursive;
+  background-color: PeachPuff;
+  font-size: 20px;
+  border: 2px solid #ccc;
+  border-color: PeachPuff ;
+
+
+}
+.titleTable{
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+td{
+  background-color: white;
+  font-size: 18px;
+  padding-left: 20px;
+  border: 2px solid #ccc;
+  border-color: PapayaWhip;
+}
 </style>
 
 <body>
@@ -54,12 +96,20 @@ if(isset($_SESSION['logged'])){
   else{
       include("header.php");}
 if(isset($_POST['applicationQualification'])){
-  $qualification = $_POST['qualification'];
+  $qualification = $_POST['qualificationName'];
   $subjectName = $_POST['subName'];
   $grade = $_POST['grade'];
+  $getQuaID = mysqli_fetch_assoc($connect->query("SELECT qualificationID FROM qualification WHERE qualificationName = '".$qualificationName."';"))->fetch_assoc()['qualificationID'];
+  $getApplicantID = mysqli_fetch_assoc($connect->query("SELECT applicantID FROM applicant WHERE applicantID=(SELECT applicantID FROM applicant WHERE userID LIKE (SELECT userID FROM users WHERE username LIKE '".$_SESSION['logged']."'))"))->fetch_assoc()['applicantID'];
+  $resultValue = warpQuote($applicantID).",".warpQuote($qualification).",".warpQuote($subjectName).",".warpQuote($grade).",".warpQuote($qualificationID);
 
+  $sql = $connect->query("INSERT INTO results (applicantID, qualification, subName, grade, qualificationID) VALUES (".$resultValue.");");
+  $connect->query(sql);
+	echo "<script>console.log('".$getapplicantID."')</script>";
+  echo "<script>console.log('".$getQuaID."')</script>";
 
 }
+$results = $connect->query("SELECT * FROM results WHERE applicantID =(SELECT applicantID FROM applicant WHERE userID LIKE (SELECT userID FROM users WHERE username LIKE '".$_SESSION['logged']."'))");
 ?>
 
 
@@ -98,10 +148,11 @@ if(isset($_POST['applicationQualification'])){
                         </div>
 
                         <div class="form-group">
-                            <button type="add" name="submit" id="add" class="form-submit submit2" >Add</button>
+                            <button type="add" name="submit" id="add" class="form-submit submit2" value="<?php echo $RESULT ?>">Add</button>
                         </div>
                         <div class="form-group">
-                            <button type="cancel" name="cancel" id="cancel" class="form-submit submit2" >cancel</button>
+                            <button type="cancel" name="cancel" id="cancel" class="form-submit submit3" >Cancel</button>
+
                         </div>
                     </form>
 
@@ -109,7 +160,32 @@ if(isset($_POST['applicationQualification'])){
             </div>
         </section>
     </div>
+    <div class="recordedUniversity">
+        <div class="container">
+        <h3 class="titleTable"> Qualification List</h3>
+        <table class="recordQuaTable">
+          <thead>
+            <tr>
+              <th>Subject Name</th>
+              <th>Grade</th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php
+          if(($results->num_rows) > 0){
+          while ($row = mysqli_fetch_array($results)){
+              echo "<tr>";
 
+              echo "<td>" . $row['subjectName'] . "</td>";
+              echo "<td>" . $row['grade'] . "</td>";
+              echo "</tr>";
+          }}
+          ?>
+        </tbody>
+      </table>
+    </div>
+    </div>
+&nbsp;&nbsp;
 
 <?php include("footer.php")?>
 </div>

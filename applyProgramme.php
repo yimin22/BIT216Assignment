@@ -73,7 +73,7 @@ if(isset($_POST['applyProgramme'])){
                           <select class="form-control" name="universityName" id="uniName">
 
                             <?php
-                            $university = $connect->query("SELECT universityName AS universityname FROM university");
+                            $university = $connect->query("SELECT universityID AS ID, universityName AS universityname FROM university");
                             if(!isset($_GET['uni']))
                             {echo "<option selected disabled>Please choose a university</option>";
                               foreach($university as $uni){
@@ -89,15 +89,24 @@ if(isset($_POST['applyProgramme'])){
                         </div>
                         <div class="form-group">
                           <label for="programmeName">Select Programme (Select One):</label>
-                          <select class="form-control" name="programmeName" id="programmeName">
+                          <select class="form-control" name="programme" id="programmeName">
 
                             <?php
-                            $selectProgrammeName = $connect->query("SELECT programmeName AS name FROM programme  WHERE university = (SELECT universityname FROM university) ");
-                            if(!isset($_GET['programme']))
-                            {echo "<option selected disabled>Please choose a programme</option>";
-                              foreach($programmeName as $programme){
-                                echo "<option value=".$programme['programmeName'].">".$programme['programmeName']."</option>";
-                              }}
+                            $university = $connect->query("SELECT universityID AS ID, universityName AS name FROM university");
+                            foreach($university as $uni){
+                              $listofProgramme = $connect->query("SELECT programmeName AS name programmeCode AS code FROM programme WHERE universityID = (SELECT universityID FROM university)");
+                              if(!isset($_GET['prog'])){
+                                echo "<option selected disabled> Please choose a programme</option>";
+                                foreach($Programmes as $Programme){
+                                  echo "<option value=".$Programme['code'].">".$Programme['name']."</option>";
+                                }
+                              }
+                              else{
+                                $programmeInfo = $connect->query("SELECT * FROM programme WHERE programmeCode = ".warpQuote($_GET['Programme']));
+                                foreach($Programmes as $Programme){
+                                echo "<option value=".warpQuote($Programme['code']).($Programme['code']==$_GET['Programme']?" selected>":">").$Programme['code']."</option>";
+                            }}}
+
 
                               ?>
                             </select>
