@@ -1,3 +1,4 @@
+<?php if(!isset($_GET['programmeCode'])){header("Location: index.php");}?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,7 +106,8 @@ if(isset($_SESSION['logged'])){
 	 include("header.php");
   }
 
-
+$programme = mysqli_fetch_assoc($connect->query("SELECT * FROM programme
+    WHERE programmeCode = ".warpQuote($_GET['programmeCode'])));
 ?>
 
 <!-- Home -->
@@ -131,33 +133,36 @@ if(isset($_SESSION['logged'])){
 <!--Content-->
 <body>
 <h2>Programme</h2>
-
   <div>
   <table>
     <thead>
+      <tbody>
       <tr>
         <th>Programme Name</th>
-        <th>About the Programme</th>
-        <th>Closing Date</th>
-        <th>Academic Qualification</th>
+        <td><?php echo $programme['programmeName'];?></td>
       </tr>
+      <tr>
+        <th>About the Programme</th>
+        <td><?php echo $programme['description'];?></td>
+      </tr>
+      <tr>
+        <th>Closing Date</th>
+        <td><?php echo $programme['closingDate'];?></td>
+      </tr>
+      <tr>
+        <th>Academic Qualification</th>
+        <td><?php echo str_replace(',','<br/>',$programme['academicQualification'])  ;?></td>
+      </tr>
+      </tbody>
     </thead>
-    <tbody>
-    <?php
-    
-      echo "<td></td>";
-      echo "<td></td>";
-      echo "<td></td>";
-      echo "<td></td>";
-      echo "</tr>";
-
-    ?>
-	  </tbody>
 	</table>
 	</div>
 
 	<div>
-		<button class="button" ><a href="applyProgramme.php">Apply Now</a></button>
+
+    <form>
+      <input type="button" class="button" value="Apply Now" onclick="window.location.href='applyProgramme.php'" />
+    </form>
 	</div>
 
 <?php include("footer.php")?>

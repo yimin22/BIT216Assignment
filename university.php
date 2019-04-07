@@ -109,24 +109,26 @@ if(isset($_SESSION['logged'])){
       </tr>
     </thead>
     <tbody>
+
     <?php
     $Universities = $connect->query("SELECT universityID AS ID, universityName AS Name FROM university");
     foreach ($Universities as $university){
-      $list = "";
-      $listOfProgramme = $connect->query("SELECT programmeName AS Name FROM programme WHERE universityID = ".$university['ID'].";");
-      if(($listOfProgramme->num_rows) < 1){
-        $list = "No Programme Offered";
-      } else {
-        $ProgrammeArray = array();
-        foreach($listOfProgramme as $programme){
-          array_push($ProgrammeArray, $programme['Name']);
-        }
-        $list = join("\n",$ProgrammeArray);
+      $programmes = $connect->query("SELECT programmeName AS Name, programmeCode AS Code FROM programme WHERE universityID = ".$university['ID'].";");
+      ?>
+
+      <tr><td><?php echo $university['Name'];?></td>
+      <td><?php
+      $programmeArray = array();
+      foreach($programmes as $programme){
+        array_push($programmeArray, array($programme['Name'],$programme['Code']));
       }
-      echo "<tr><td>" . $university['Name'] . "</td>";
-      echo "<td><a href='programmeDetails.php'>" . nl2br($list) . "</td></tr>";
-    }
-    ?>
+      if(sizeOf($programmeArray)<1){
+        echo "No Programme Offered!";
+      }else{
+    foreach( $programmeArray AS $programmeDetail ) {  ?>
+            <a href="programmeDetails.php?programmeCode=<?php echo $programmeDetail[1];?>"><?php echo $programmeDetail[0];?></a><br><?php }unset($programmeArray); ?>
+      </td></tr>
+      <?php }} ?>
   </tbody>
 </table>
 </form>
