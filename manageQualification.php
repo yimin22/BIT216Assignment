@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <title>Manage Qualification</title>
@@ -30,81 +30,79 @@ include("defaultValues.php");
 $type = $SYSTEM_ADMIN;
 include("logincode.php");
 if(isset($_SESSION['logged'])){
-	include("headerLogin.php");
+ include("headerLogin.php");
 } else{
-	 include("header.php");
+  include("header.php");
 }
 
 ?>
 
 <div class="main">
 
-        <section class="signup">
-            <!-- <img src="images/signup-bg.jpg" alt=""> -->
-            <div class="container">
-                <div class="signup-content">
-                    <form id="getQualification" method="GET">
-                      <input id="getQualiBtn"type="submit" style="visibility: hidden;">
-                    </form>
-                    <form method="POST" id="signup-form" name="SetUpQualification" class="signup-form">
-                        <h2 class="form-title">Manage Qualification</h2>
-                        <div class="form-group">
-													<select id="QualificationSelect" class="form-input" name="Qualification" form="getQualification">
-                            <?php
+       <section class="signup">
+           <!-- <img src="images/signup-bg.jpg" alt=""> -->
+           <div class="container">
+               <div class="signup-content">
+                   <form id="getQualification" method="GET">
+                     <input id="getQualiBtn"type="submit" style="visibility: hidden;">
+                   </form>
+                   <form method="POST" id="signup-form" name="SetUpQualification" class="signup-form">
+                       <h2 class="form-title">Manage Qualification</h2>
+                       <div class="form-group">
+             <select id="QualificationSelect" class="form-input" name="Qualification" form="getQualification">
+                           <?php
+                           $Qualifications = $connect->query("SELECT qualificationID AS ID, qualificationName AS Name FROM qualification");
+                           if(!isset($_GET['Qualification']))
+                           {echo "<option selected disabled>Please choose a qualification</option>";
+                             foreach($Qualifications as $Qualification){
+                               echo "<option value=".$Qualification['ID'].">".$Qualification['Name']."</option>";
+                             }}
+                           else{
+                             $qualificationInfo = $connect->query("SELECT * FROM qualification WHERE qualificationID = ".$_GET['Qualification']);
+                             foreach($Qualifications as $Qualification){
+                             echo "<option value=".$Qualification['ID'].($Qualification['ID']==$_GET['Qualification']?" selected":"").">".$Qualification['Name']."</option>";
+                           }while( $row = $qualificationInfo->fetch_assoc()){
+                             $QID = $_GET['Qualification'];
+                             $minScore = $row['minimumScore'];
+                             $maxScore = $row['maximumScore'];
+                             $resultCalc = $row['resultCalcDescription'];
+                             $grade = str_replace(',',PHP_EOL,$row['gradeList']);
+                           }}
 
-                            $Qualifications = $connect->query("SELECT qualificationID AS ID, qualificationName AS Name FROM qualification");
-                            if(!isset($_GET['Qualification']))
-                            {echo "<option selected disabled>Please choose a qualification</option>";
-                              foreach($Qualifications as $Qualification){
-                                echo "<option value=".$Qualification['ID'].">".$Qualification['Name']."</option>";
-                              }}
-                            else{
-                              $qualificationInfo = $connect->query("SELECT * FROM qualification WHERE qualificationID = ".$_GET['Qualification']);
-                              foreach($Qualifications as $Qualification){
-                              echo "<option value=".$Qualification['ID'].($Qualification['ID']==$_GET['Qualification']?" selected":"").">".$Qualification['Name']."</option>";
-                            }while( $row = $qualificationInfo->fetch_assoc()){
-                              $QID = $_GET['Qualification'];
-                              $minScore = $row['minimumScore'];
-                              $maxScore = $row['maximumScore'];
-                              $resultCalc = $row['resultCalcDescription'];
-                              $grade = str_replace(',',PHP_EOL,$row['gradeList']);
-                            }}
+                           if(isset($_POST['qualificationID'])){
+                           $sql = "UPDATE qualification SET minimumScore = '".$_POST['minScore']."', maximumScore = '".$_POST['maximumScore']."', resultCalcDescription = '".$_POST['resultCalcDescription']."', gradeList = '".str_replace(PHP_EOL,',',$_POST['gradeList'])."' WHERE qualification.qualificationID = ".$_GET['Qualification'].";";
+                           $connect->query($sql);
+                           echo $sql;
 
-														if(isset($_POST['qualificationID'])){
-														  $sql = "UPDATE qualification SET minimumScore=".$_POST['minScore'].", maximumScore=".$_POST['maximumScore'].", resultCalcDescription=".warpQuote($_POST['resultCalcDescription']).", gradeList=".warpQuote(str_replace(PHP_EOL,',',$_POST['gradeList']))." WHERE qualificationID=".$_POST['qualificationID']."";
+                           header("Location: index.php");
+													 exit();
+                           }
+                           ?>
+             </select>
+                       </div>
+                       <?php if(isset($_GET['Qualification'])){?>
+                       <div class="form-group">
+                           <input type="number" class="form-input" name="minScore" placeholder="Minimum Score" value="<?php echo $minScore ?>" required>
+                       </div>
+                       <div class="form-group">
+                           <input type="number" class="form-input" name="maximumScore" id="maximumScore" placeholder="Maximum Score" value="<?php echo $maxScore ?>" required>
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-input" name="resultCalcDescription" id="resultCalcDescription" placeholder="Description of the result calculation" value="<?php echo $resultCalc ?>" required>
+                       </div>
+                       <div class="form-group">
+                           <textarea rows="3" cols="50" class="form-input" name="gradeList" id="gradeList" placeholder="List of Grading System"><?php echo $grade ?></textarea>
+                       </div>
+                       <div class="form-group">
+                           <button type="submit" class="form-submit submit2 " name="qualificationID" value="<?php echo $QID; ?>">Update</button>
+                       </div>
+                     <?php } ?>
+                   </form>
+               </div>
+           </div>
+       </section>
 
-														  $connect->query($sql);
-														  header("Location: index.php");
-															exit();
-
-														}
-
-                            ?>
-													</select>
-                        </div>
-												<?php if(isset($_GET['Qualification'])){?>
-                        <div class="form-group">
-                            <input type="number" class="form-input" name="minScore" placeholder="Minimum Score" value="<?php echo $minScore ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="number" class="form-input" name="maximumScore" id="maximumScore" placeholder="Maximum Score" value="<?php echo $maxScore ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="resultCalcDescription" id="resultCalcDescription" placeholder="Description of the result calculation" value="<?php echo $resultCalc ?>" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea rows="3" cols="50" class="form-input" name="gradeList" id="gradeList" placeholder="List of Grading System"><?php echo $grade ?></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="form-submit submit2 " name="qualificationID value="<?php echo warpQuote($QID); ?>"">Update</button>
-                        </div>
-											<?php } ?>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-    </div>
+   </div>
 
 <?php include("footer.php")?>
 
@@ -124,7 +122,7 @@ if(isset($_SESSION['logged'])){
 <script src="js/main.js"></script>
 <script  type="text/javascript">
 $('#QualificationSelect').change(function(){
-            $('#getQualiBtn').click();
+           $('#getQualiBtn').click();
 })
 </script>
 </body>
